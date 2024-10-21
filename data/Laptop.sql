@@ -36,7 +36,6 @@ CREATE TABLE [dbo].[HangSX]
     [id]          INT IDENTITY (1,1) PRIMARY KEY,
     [ma]          VARCHAR(50)  NOT NULL UNIQUE,
     [ten_hang_sx] VARCHAR(255) NOT NULL,
-    [quoc_gia]    VARCHAR(255),
     [mo_ta]       TEXT,
     [thu_tu]      INT          NOT NULL
 );
