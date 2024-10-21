@@ -174,6 +174,19 @@ CREATE TABLE [dbo].[DanhGia]
 );
 GO
 
+-- Tạo bảng Series Laptop (SeriesLaptop)
+CREATE TABLE [dbo].[SeriesLaptop]
+(
+    [id]        INT IDENTITY (1,1) PRIMARY KEY,
+    [laptop_id] INT            NOT NULL,
+    [series]    VARCHAR(50)    NOT NULL,
+    [ngay_tao]  DATETIME2   DEFAULT GETDATE(),
+    [thu_tu]    INT            NOT NULL,
+    FOREIGN KEY ([laptop_id]) REFERENCES [dbo].[Laptop] ([id])
+);
+GO
+
+
 -- Trigger tạo mã tự động cho Laptop với định dạng "LT+id"
 CREATE TRIGGER trg_Laptop_Ma
     ON [dbo].[Laptop]
