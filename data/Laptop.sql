@@ -186,7 +186,6 @@ CREATE TABLE [dbo].[SeriesLaptop]
 );
 GO
 
-
 -- Trigger tạo mã tự động cho Laptop với định dạng "LT+id"
 CREATE TRIGGER trg_Laptop_Ma
     ON [dbo].[Laptop]
