@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Min;
 import lombok.Data;
 
 @Entity
-@Table(name = "DanhGia")
+@Table(name = "danh_gia")
 @Data
 public class danhGia {
     @Id

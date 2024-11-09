@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Entity
-@Table(name = "VaiTro")
+@Table(name = "vai_tro")
 @Data
 public class vaiTro {
     @Id
