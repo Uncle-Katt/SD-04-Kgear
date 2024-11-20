@@ -50,4 +50,7 @@ public class khachHang {
 
     @Column(name = "ngay_cap_nhat")
     private LocalDateTime ngayCapNhat;
+    
+    @Column(name = "thu_tu")
+    private Integer thuTu;
 }

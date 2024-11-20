@@ -72,6 +72,7 @@ public class khachHangController {
             khachHang.setDiaChi(khachHangDetails.getDiaChi());
             khachHang.setVaiTro(khachHangDetails.getVaiTro());
             khachHang.setNgayCapNhat(khachHangDetails.getNgayCapNhat());
+
             khachHangRepo.save(khachHang);
         }
         return "redirect:/khachhang/index";
