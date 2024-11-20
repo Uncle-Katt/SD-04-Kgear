@@ -19,7 +19,6 @@
         <th>Email</th>
         <th>Số điện thoại</th>
         <th>Địa chỉ</th>
-        <th>Vai trò</th>
         <th>Ngày tạo</th>
         <th>Ngày cập nhật</th>
         <th colspan="1">Hành động</th>
@@ -34,7 +33,6 @@
             <td>${kh.email}</td>
             <td>${kh.soDienThoai}</td>
             <td>${kh.diaChi}</td>
-            <td>${kh.vaiTro != null ? kh.vaiTro.tenVaiTro : 'N/A'}</td>
             <td>${kh.ngayTao}</td>
             <td>${kh.ngayCapNhat}</td>
             <td><a href="/khachhang/edit/${kh.id}"><button>Sửa khách hàng</button></a></td>

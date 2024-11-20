@@ -70,7 +70,6 @@ public class khachHangController {
             khachHang.setEmail(khachHangDetails.getEmail());
             khachHang.setSoDienThoai(khachHangDetails.getSoDienThoai());
             khachHang.setDiaChi(khachHangDetails.getDiaChi());
-            khachHang.setVaiTro(khachHangDetails.getVaiTro());
             khachHang.setNgayCapNhat(khachHangDetails.getNgayCapNhat());
 
             khachHangRepo.save(khachHang);

@@ -40,10 +40,6 @@ public class khachHang {
     @Column(name = "dia_chi")
     private String diaChi;
 
-    @ManyToOne
-    @JoinColumn(name = "vai_tro_id")
-    private vaiTro vaiTro;
-
     @NotNull(message = "Ngày tạo không được để trống")
     @Column(name = "ngay_tao")
     private LocalDateTime ngayTao;

@@ -1,6 +1,6 @@
-﻿CREATE DATABASE LaptopK
+﻿CREATE DATABASE LaptopK;
 GO
-USE LaptopK
+USE LaptopK;
 GO
 
 -- Tạo bảng Vai trò (VaiTro)
@@ -22,10 +22,27 @@ CREATE TABLE [dbo].[khach_hang]
     [email]          NVARCHAR(255) NOT NULL UNIQUE,
     [so_dien_thoai]  VARCHAR(20)  NOT NULL,
     [dia_chi]        NVARCHAR(255),
-    [vai_tro_id]     INT,
     [ngay_tao]       DATETIME2 DEFAULT GETDATE(),
     [ngay_cap_nhat]  DATETIME2 DEFAULT GETDATE(),
     [thu_tu]         INT          NOT NULL,
+    );
+GO
+
+-- Tạo bảng nhân viên (nhan_vien)
+CREATE TABLE [dbo].[nhan_vien]
+(
+    [id]            INT IDENTITY (1,1) PRIMARY KEY,
+    [ma]            VARCHAR(50) NOT NULL UNIQUE,
+    [ten_nhan_vien] NVARCHAR(255) NOT NULL,
+    [email]         NVARCHAR(255) NOT NULL UNIQUE,
+    [so_dien_thoai] VARCHAR(20) NOT NULL,
+    [dia_chi]       NVARCHAR(255),
+    [vai_tro_id]    INT NOT NULL,
+    [username]      VARCHAR(50) NOT NULL UNIQUE,
+    [password]      VARCHAR(255) NOT NULL,
+    [ngay_tao]      DATETIME2 DEFAULT GETDATE(),
+    [ngay_cap_nhat] DATETIME2 DEFAULT GETDATE(),
+    [thu_tu]       INT NOT NULL,
     FOREIGN KEY ([vai_tro_id]) REFERENCES [dbo].[vai_tro] ([id])
     );
 GO
@@ -62,10 +79,10 @@ CREATE TABLE [dbo].[danh_muc]
     );
 GO
 
--- Tạo bảng san pham (san_pham)
-CREATE TABLE [dbo].[san_pham]
+-- Tạo bảng laptop (laptop)
+CREATE TABLE [dbo].[laptop]
 (
-    [san_pham_id] INT IDENTITY(1,1) PRIMARY KEY,
+    [id] INT IDENTITY(1,1) PRIMARY KEY,
     [ten] NVARCHAR(255) NOT NULL,
     [mo_ta] NTEXT,
     [gia] DECIMAL(10, 2) NOT NULL,
@@ -74,36 +91,35 @@ CREATE TABLE [dbo].[san_pham]
     );
 GO
 
--- Tạo bảng chi tiết laptop (chi_tiet_san_pham)
-CREATE TABLE [dbo].[chi_tiet_san_pham]
+-- Tạo bảng chi tiết laptop (chi_tiet_laptop)
+CREATE TABLE [dbo].[chi_tiet_laptop]
 (
     [id]                 INT IDENTITY (1,1) PRIMARY KEY,
     [ma]                 VARCHAR(50)    NOT NULL UNIQUE,
-    [ten_laptop]         NVARCHAR(255)   NOT NULL,
-    [san_pham_id]        INT            NOT NULL,
-    [hang_sx_id]         INT            NOT NULL,
-    [mau_sac_id]         INT            NOT NULL,
-    [danh_muc_id]        INT            NOT NULL,
-    [cpu]                NVARCHAR(100),
-    [ram]                NVARCHAR(50),
-    [o_cung]             NVARCHAR(50),
-    [man_hinh]           NVARCHAR(50),
-    [card_man_hinh]      NVARCHAR(50),
-    [dung_luong_pin]     NVARCHAR(50),
-    [he_dieu_hanh]       NVARCHAR(50),
+    [laptop_id]         INT            NOT NULL,
+    [hang_sx_id]        INT            NOT NULL,
+    [mau_sac_id]        INT            NOT NULL,
+    [danh_muc_id]       INT            NOT NULL,
+    [cpu]               NVARCHAR(100),
+    [ram]               NVARCHAR(50),
+    [o_cung]            NVARCHAR(50),
+    [man_hinh]          NVARCHAR(50),
+    [card_man_hinh]     NVARCHAR(50),
+    [dung_luong_pin]    NVARCHAR(50),
+    [he_dieu_hanh]      NVARCHAR(50),
     [thong_tin_bao_hanh] NVARCHAR(255),
-    [gia]                DECIMAL(10, 2) NOT NULL,
-    [so_luong_ton_kho]   INT            NOT NULL,
-    [mo_ta]              NTEXT,
-    [anh_url]            VARCHAR(255),
-    [ngay_tao]           DATETIME2   DEFAULT GETDATE(),
-    [ngay_cap_nhat]      DATETIME2   DEFAULT GETDATE(),
-    [trang_thai]         VARCHAR(50) DEFAULT 'chua_ban',
-    [thu_tu]             INT            NOT NULL,
+    [gia]               DECIMAL(10, 2) NOT NULL,
+    [so_luong_ton_kho]  INT            NOT NULL,
+    [mo_ta]             NTEXT,
+    [anh_url]           VARCHAR(255),
+    [ngay_tao]          DATETIME2   DEFAULT GETDATE(),
+    [ngay_cap_nhat]     DATETIME2   DEFAULT GETDATE(),
+    [trang_thai]        VARCHAR(50) DEFAULT 'chua_ban',
+    [thu_tu]            INT            NOT NULL,
     FOREIGN KEY ([hang_sx_id]) REFERENCES [dbo].[hang_sx] ([id]),
     FOREIGN KEY ([mau_sac_id]) REFERENCES [dbo].[mau_sac] ([id]),
     FOREIGN KEY ([danh_muc_id]) REFERENCES [dbo].[danh_muc] ([id]),
-    FOREIGN KEY (san_pham_id) REFERENCES [dbo].[san_pham]([san_pham_id])
+    FOREIGN KEY ([laptop_id]) REFERENCES [dbo].[laptop] ([id])
     );
 GO
 
@@ -131,13 +147,13 @@ CREATE TABLE [dbo].[chi_tiet_don_hang]
     [id]          INT IDENTITY (1,1) PRIMARY KEY,
     [ma]          VARCHAR(50)    NOT NULL UNIQUE,
     [don_hang_id] INT            NOT NULL,
-    [san_pham_id]   INT            NOT NULL,
+    [laptop_id]   INT            NOT NULL,
     [so_luong]    INT            NOT NULL,
     [gia]         DECIMAL(10, 2) NOT NULL,
     [tong_tien]   DECIMAL(10, 2) NOT NULL,
     [thu_tu]      INT            NOT NULL,
     FOREIGN KEY ([don_hang_id]) REFERENCES [dbo].[don_hang] ([id]),
-    FOREIGN KEY ([san_pham_id]) REFERENCES [dbo].[san_pham] ([san_pham_id])
+    FOREIGN KEY ([laptop_id]) REFERENCES [dbo].[laptop] ([id])
     );
 GO
 
@@ -147,12 +163,12 @@ CREATE TABLE [dbo].[gio_hang]
     [id]            INT IDENTITY (1,1) PRIMARY KEY,
     [ma]            VARCHAR(50) NOT NULL UNIQUE,
     [khach_hang_id] INT         NOT NULL,
-    [san_pham_id]     INT         NOT NULL,
+    [laptop_id]     INT         NOT NULL,
     [so_luong]      INT         NOT NULL,
     [ngay_tao]      DATETIME2 DEFAULT GETDATE(),
     [thu_tu]        INT         NOT NULL,
     FOREIGN KEY ([khach_hang_id]) REFERENCES [dbo].[khach_hang] ([id]),
-    FOREIGN KEY ([san_pham_id]) REFERENCES [dbo].[san_pham] ([san_pham_id])
+    FOREIGN KEY ([laptop_id]) REFERENCES [dbo].[laptop] ([id])
     );
 GO
 
@@ -161,14 +177,14 @@ CREATE TABLE [dbo].[gio_hang_chi_tiet]
 (
     [id]          INT IDENTITY (1,1) PRIMARY KEY,
     [gio_hang_id] INT            NOT NULL,
-    [san_pham_id]   INT            NOT NULL,
+    [laptop_id]   INT            NOT NULL,
     [so_luong]    INT            NOT NULL,
     [gia]         DECIMAL(10, 2) NOT NULL,
     [tong_tien]   AS ([so_luong] * [gia]) PERSISTED,
     [ngay_tao]    DATETIME2 DEFAULT GETDATE(),
     [thu_tu]      INT            NOT NULL,
     FOREIGN KEY ([gio_hang_id]) REFERENCES [dbo].[gio_hang] ([id]),
-    FOREIGN KEY ([san_pham_id]) REFERENCES [dbo].[san_pham] ([san_pham_id])
+    FOREIGN KEY ([laptop_id]) REFERENCES [dbo].[laptop] ([id])
     );
 GO
 
@@ -178,130 +194,195 @@ CREATE TABLE [dbo].[danh_gia]
     [id]            INT IDENTITY (1,1) PRIMARY KEY,
     [ma]            VARCHAR(50) NOT NULL UNIQUE,
     [khach_hang_id] INT         NOT NULL,
-    [san_pham_id]     INT         NOT NULL,
-    [diem_danh_gia] DECIMAL(3, 2) NOT NULL CHECK ([diem_danh_gia] BETWEEN 0 AND 5),
+    [laptop_id]     INT         NOT NULL,
+    [diem_danh_gia] INT CHECK ([diem_danh_gia] >= 1 AND [diem_danh_gia] <= 5),
     [binh_luan]     NTEXT,
-    [ngay_tao]      DATETIME2   DEFAULT GETDATE(),
+    [ngay_tao]      DATETIME2 DEFAULT GETDATE(),
+    [thu_tu]        INT         NOT NULL,
     FOREIGN KEY ([khach_hang_id]) REFERENCES [dbo].[khach_hang] ([id]),
-    FOREIGN KEY ([san_pham_id]) REFERENCES [dbo].[san_pham] ([san_pham_id])
+    FOREIGN KEY ([laptop_id]) REFERENCES [dbo].[laptop] ([id])
     );
 GO
 
-CREATE TABLE dbo.voucher (
-                             id INT IDENTITY(1,1) PRIMARY KEY,  -- Khóa chính tự động tăng
-                             ma VARCHAR(50) NOT NULL UNIQUE,     -- Mã voucher (đảm bảo duy nhất)
-                             gia_tri DECIMAL(10, 2) NOT NULL,    -- Giá trị của voucher (số tiền giảm)
-                             trang_thai BIT NOT NULL,            -- Trạng thái voucher (1: active, 0: inactive)
-                             ngay_tao DATETIME DEFAULT GETDATE(), -- Ngày tạo voucher
-                             ngay_het_han DATETIME,              -- Ngày hết hạn voucher
-                             mo_ta NVARCHAR(255) NULL            -- Mô tả voucher
-);
-GO
-
+-- Tạo bảng series laptop (series_laptop)
 CREATE TABLE [dbo].[series_laptop]
 (
     [id]        INT IDENTITY (1,1) PRIMARY KEY,
-    [san_pham_id] INT            NOT NULL,
+    [laptop_id] INT            NOT NULL,
     [series]    VARCHAR(50)    NOT NULL,
     [ngay_tao]  DATETIME2   DEFAULT GETDATE(),
     [thu_tu]    INT            NOT NULL,
-    FOREIGN KEY ([san_pham_id]) REFERENCES [dbo].[san_pham] ([san_pham_id])
+    FOREIGN KEY ([laptop_id]) REFERENCES [dbo].[laptop] ([id])
     );
 GO
 
-INSERT INTO dbo.[series_laptop] ([san_pham_id], [series], [thu_tu])
-VALUES
-(1, 'Gaming', 1),
-(1, 'UltraSlim', 2);
-GO
 
-INSERT INTO dbo.voucher (ma, gia_tri, trang_thai, ngay_het_han, mo_ta)
-VALUES
-('VOUCHER001', 100000, 1, '2024-12-31', 'Giảm giá 100.000 VNĐ'),
-('VOUCHER002', 50000, 1, '2024-12-31', 'Giảm giá 50.000 VNĐ');
+---- Trigger tạo mã tự động cho Laptop với định dạng "LT+id"
+--CREATE TRIGGER trg_Laptop_Ma
+--    ON [dbo].[laptop]
+--    AFTER INSERT
+--    AS
+--BEGIN
+--    UPDATE [dbo].[laptop]
+--    SET [ma] = CONCAT('LT', [id])
+--    WHERE [id] IN (SELECT [id] FROM inserted);
+--END;
+--GO
 
-
--- Thêm dữ liệu vào bảng Vai trò (VaiTro)
+-- Thêm dữ liệu vào bảng vai_tro
 INSERT INTO [dbo].[vai_tro] ([ma], [ten_vai_tro], [thu_tu])
 VALUES
-    ('admin', 'Quản trị viên', 1),
-    ('user', 'Người dùng', 2);
-GO
+(N'AD', N'Quản trị viên', 1),
+(N'NV', N'Nhân viên', 2),
+(N'KH', N'Khách hàng', 3);
 
--- Thêm dữ liệu vào bảng khách hàng (khach_hang)
-INSERT INTO [dbo].[khach_hang] ([ma], [ten_khach_hang], [email], [so_dien_thoai], [dia_chi], [vai_tro_id], [thu_tu])
+-- Thêm dữ liệu vào bảng khach_hang
+INSERT INTO [dbo].[khach_hang] ([ma], [ten_khach_hang], [email], [so_dien_thoai], [dia_chi], [thu_tu])
 VALUES
-('KH001', 'Nguyễn Văn A', 'a@example.com', '0987654321', 'Hà Nội', 1, 1),
-('KH002', 'Trần Thị B', 'b@example.com', '0987654322', 'TP.HCM', 2, 2);
+    (N'KH001', N'Nguyễn Văn A', N'email1@example.com', N'0123456789', N'Số 1, đường ABC', 1),
+    (N'KH002', N'Trần Thị B', N'email2@example.com', N'0123456790', N'Số 2, đường DEF', 2),
+    (N'KH003', N'Nguyễn Hoàng C', N'email3@example.com', N'0123456791', N'Số 3, đường XYZ', 3);
+
+-- Thêm dữ liệu vào bảng nhan_vien
+INSERT INTO [dbo].[nhan_vien] ([ma], [ten_nhan_vien], [email], [so_dien_thoai], [dia_chi], [vai_tro_id], [username], [password], [thu_tu])
+VALUES
+    ('NV001', 'Nguyễn Văn A', 'nva@example.com', '0123456789', 'Hà Nội', 1, 'nva', 'password1', 1),
+    ('NV002', 'Trần Thị B', 'ttb@example.com', '0987654321', 'TP.HCM', 2, 'ttb', 'password2', 2),
+    ('NV003', 'Lê Văn C', 'lvc@example.com', '0912345678', 'Đà Nẵng', 3, 'lvc', 'password3', 3);
 GO
 
--- Thêm dữ liệu vào bảng hãng sản xuất (hang_sx)
+-- Thêm dữ liệu vào bảng hang_sx
 INSERT INTO [dbo].[hang_sx] ([ma], [ten_hang_sx], [mo_ta], [thu_tu])
 VALUES
-('HS001', 'Apple', 'Hãng sản xuất thiết bị điện tử', 1),
-('HS002', 'Dell', 'Hãng sản xuất máy tính', 2);
-GO
+(N'HP', N'Hewlett Packard', N'Máy tính của hãng HP', 1),
+(N'DELL', N'Dell Technologies', N'Máy tính của hãng Dell', 2),
+(N'LENOVO', N'Lenovo Group', N'Máy tính của hãng Lenovo', 3);
 
--- Thêm dữ liệu vào bảng màu sắc (mau_sac)
+-- Thêm dữ liệu vào bảng mau_sac
 INSERT INTO [dbo].[mau_sac] ([ma], [ten_mau], [thu_tu])
 VALUES
-('MS001', 'Đen', 1),
-('MS002', 'Trắng', 2);
-GO
+    (N'XANH', N'Màu xanh', 1),
+    (N'DO', N'Màu đỏ', 2),
+    (N'VANG', N'Màu vàng', 3);
 
--- Thêm dữ liệu vào bảng danh mục sản phẩm (danh_muc)
+-- Thêm dữ liệu vào bảng danh_muc
 INSERT INTO [dbo].[danh_muc] ([ma], [ten_danh_muc], [mo_ta], [thu_tu])
 VALUES
-('DM001', 'Laptop', 'Máy tính xách tay', 1),
-('DM002', 'Phụ kiện', 'Phụ kiện máy tính', 2);
-GO
+    (N'DM001', N'Laptop Văn phòng', N'Laptop cho công việc văn phòng', 1),
+    (N'DM002', N'Laptop Gaming', N'Laptop chuyên dụng cho chơi game', 2),
+    (N'D003', N'Laptop Siêu nhẹ', N'Laptop nhẹ và dễ mang theo', 3);
 
--- Thêm dữ liệu vào bảng san pham (san_pham)
-INSERT INTO [dbo].[san_pham] ([ten], [mo_ta], [gia], [so_luong], [anh_url])
+-- Thêm dữ liệu vào bảng laptop
+INSERT INTO [dbo].[laptop] ([ten], [mo_ta], [gia], [so_luong], [anh_url])
 VALUES
-('Laptop Dell XPS 13', 'Laptop cao cấp Dell XPS 13', 25000, 10, '/images/dell_xps_13.jpg'),
-('Laptop MacBook Pro', 'Laptop MacBook Pro với hiệu năng mạnh mẽ', 35000, 5, '/images/macbook_pro.jpg');
+    (N'Laptop HP 123', N'Một chiếc laptop HP mạnh mẽ với Intel Core i7', 10000, 10, 'url_to_image_1.jpg'),
+    (N'Laptop Dell XPS', N'Một chiếc laptop Dell XPS mỏng nhẹ với Intel Core i5', 20000, 5, 'url_to_image_2.jpg'),
+    (N'Laptop Lenovo ThinkPad', N'Một chiếc laptop Lenovo ThinkPad bền bỉ với AMD Ryzen 7', 15000, 7, 'url_to_image_3.jpg');
 GO
 
--- Thêm dữ liệu vào bảng chi tiết laptop (chi_tiet_san_pham)
-INSERT INTO [dbo].[chi_tiet_san_pham] ([ma], [ten_laptop], [san_pham_id], [hang_sx_id], [mau_sac_id], [danh_muc_id], [cpu], [ram], [o_cung], [man_hinh], [card_man_hinh], [dung_luong_pin], [he_dieu_hanh], [thong_tin_bao_hanh], [gia], [so_luong_ton_kho], [mo_ta], [anh_url], [ngay_tao], [ngay_cap_nhat], [trang_thai], [thu_tu])
+-- Thêm dữ liệu vào bảng chi_tiet_lap_top
+INSERT INTO [dbo].[chi_tiet_laptop] ([ma], [hang_sx_id], [mau_sac_id], [danh_muc_id], [cpu], [ram], [o_cung], [man_hinh], [card_man_hinh], [dung_luong_pin], [he_dieu_hanh], [gia], [so_luong_ton_kho], [mo_ta], [anh_url], [thu_tu])
 VALUES
-('CTSP001', 'Dell XPS 13', 1, 2, 1, 1, 'Intel Core i7', '8GB', '512GB SSD', '13.3 inches', 'Intel UHD Graphics', '12h', 'Windows 10', 'Bảo hành 1 năm', 25000, 10, 'Laptop cao cấp', '/images/dell_xps_13.jpg', GETDATE(), GETDATE(), 'chua_ban', 1),
-('CTSP002', 'MacBook Pro 13"', 2, 1, 2, 1, 'Apple M1', '16GB', '1TB SSD', '13 inches', 'Apple Integrated', '20h', 'macOS', 'Bảo hành 1 năm', 35000, 5, 'Laptop với hiệu năng mạnh mẽ', '/images/macbook_pro.jpg', GETDATE(), GETDATE(), 'chua_ban', 2);
+(N'LT001', 1, 1, 1, 'Intel Core i7', '16GB', '512GB SSD', '15.6"', 'NVIDIA GTX 1650', '56Wh', 'Windows 10', 10000, 10, N'Mô tả chi tiết cho Laptop HP 123', 'url_to_image_1_detail.jpg', 1),
+(N'LT002', 2, 2, 2, 'Intel Core i5', '8GB', '256GB SSD', '15.6"', 'Intel UHD Graphics', '45Wh', 'Windows 11', 20000, 5, N'Mô tả chi tiết cho Laptop Dell XPS', 'url_to_image_2_detail.jpg', 2),
+(N'LT003', 3, 3, 3, 'AMD Ryzen 7', '32GB', '1TB SSD', '17"', 'NVIDIA RTX 3060', '90Wh', 'Windows 11', 15000, 7, N'Mô tả chi tiết cho Laptop Lenovo ThinkPad', 'url_to_image_3_detail.jpg', 3);
 GO
 
--- Thêm dữ liệu vào bảng đơn hàng (don_hang)
+-- Thêm dữ liệu vào bảng don_hang
 INSERT INTO [dbo].[don_hang] ([ma], [khach_hang_id], [tong_tien], [dia_chi_giao_hang], [phuong_thuc_thanh_toan], [thu_tu])
 VALUES
-('DH001', 1, 25000, 'Hà Nội', 'Thanh toán khi nhận hàng', 1),
-('DH002', 2, 35000, 'TP.HCM', 'Chuyển khoản ngân hàng', 2);
-GO
+(N'DH001', 1, 10000, N'Số 1, đường ABC', N'Trực tuyến', 1),
+(N'DH002', 2, 20000, N'Số 2, đường DEF', N'Tiền mặt', 2),
+(N'DH003', 3, 15000, N'Số 3, đường XYZ', N'Trực tuyến', 3);
 
--- Thêm dữ liệu vào bảng chi tiết đơn hàng (chi_tiet_don_hang)
-INSERT INTO [dbo].[chi_tiet_don_hang] ([ma], [don_hang_id], [san_pham_id], [so_luong], [gia], [tong_tien], [thu_tu])
+-- Thêm dữ liệu vào bảng chi_tiet_don_hang
+INSERT INTO [dbo].[chi_tiet_don_hang] ([ma], [don_hang_id], [laptop_id], [so_luong], [gia], [tong_tien], [thu_tu])
 VALUES
-('CTDH001', 1, 1, 1, 25000, 25000, 1),
-('CTDH002', 2, 2, 1, 35000, 35000, 2);
-GO
+    (N'CTDH001', 1, 1, 1, 10000, 10000, 1),
+    (N'CTDH002', 2, 2, 1, 20000, 20000, 2),
+    (N'CTDH003', 3, 3, 1, 15000, 15000, 3);
 
--- Thêm dữ liệu vào bảng giỏ hàng (gio_hang)
-INSERT INTO [dbo].[gio_hang] ([ma], [khach_hang_id], [san_pham_id], [so_luong], [thu_tu])
+-- Thêm dữ liệu vào bảng gio_hang
+INSERT INTO [dbo].[gio_hang] ([ma], [khach_hang_id], [laptop_id], [so_luong], [thu_tu])
 VALUES
-('GH001', 1, 1, 1, 1),
-('GH002', 2, 2, 1, 2);
-GO
+    (N'GH001', 1, 1, 1, 1),
+    (N'GH002', 2, 2, 2, 2),
+    (N'GH003', 3, 3, 1, 3);
 
--- Thêm dữ liệu vào bảng giỏ hàng chi tiết (gio_hang_chi_tiet)
-INSERT INTO [dbo].[chi_tiet_don_hang]
-([ma], [don_hang_id], [san_pham_id], [so_luong], [gia], [tong_tien], [thu_tu])
+-- Thêm dữ liệu vào bảng gio_hang_chi_tiet
+INSERT INTO [dbo].[gio_hang_chi_tiet]
+([gio_hang_id], [laptop_id], [so_luong], [gia], [thu_tu])
 VALUES
-('CT01', 1, 1, 1, 25000, 25000 * 1, 1), -- Cung cấp đủ 7 giá trị
-('CT02', 2, 2, 1, 35000, 35000 * 1, 2); -- Cung cấp đủ 7 giá trị
+    (1, 1, 3, 15000, 1),
+    (1, 2, 2, 20000, 2),
+    (1, 3, 1, 25000, 3);
+SELECT id FROM dbo.laptop;
 
-
--- Thêm dữ liệu vào bảng đánh giá sản phẩm (danh_gia)
-INSERT INTO [dbo].[danh_gia] ([ma], [khach_hang_id], [san_pham_id], [diem_danh_gia], [binh_luan], [ngay_tao])
+-- Thêm dữ liệu vào bảng danh_gia
+INSERT INTO [dbo].[danh_gia] ([ma], [khach_hang_id], [laptop_id], [diem_danh_gia], [binh_luan], [thu_tu])
 VALUES
-    ('DG001', 1, 1, 4.5, 'Sản phẩm tuyệt vời, rất nhanh', GETDATE()),
-    ('DG002', 2, 2, 5.0, 'Máy tính chạy mượt mà, rất hài lòng', GETDATE());
-GO
+    (N'DG001', 1, 1, 5, N'Rất tốt', 1),
+    (N'DG002', 2, 2, 4, N'Tốt', 2),
+    (N'DG003', 3, 3, 3, N'Bình thường', 3);
+
+-- Thêm dữ liệu vào bảng series_laptop
+INSERT INTO [dbo].[series_laptop] ([laptop_id], [series], [thu_tu])
+VALUES
+    (1, N'Series A', 1),
+    (2, N'Series B', 2),
+    (3, N'Series C', 3);
+
+SELECT * FROM [dbo].[vai_tro];
+SELECT * FROM [dbo].[khach_hang];
+SELECT * FROM [dbo].[hang_sx];
+SELECT * FROM [dbo].[mau_sac];
+SELECT * FROM [dbo].[danh_muc];
+SELECT * FROM [dbo].[laptop];
+SELECT * FROM [dbo].[chi_tiet_laptop];
+SELECT * FROM [dbo].[don_hang];
+SELECT * FROM [dbo].[chi_tiet_don_hang];
+SELECT * FROM [dbo].[gio_hang];
+SELECT * FROM [dbo].[gio_hang_chi_tiet];
+SELECT * FROM [dbo].[danh_gia];
+SELECT * FROM [dbo].[series_laptop];
+
+
+--DELETE FROM [dbo].[vai_tro];
+--DELETE FROM [dbo].[khach_hang];
+--DELETE FROM [dbo].[hang_sx];
+--DELETE FROM [dbo].[mau_sac];
+--DELETE FROM [dbo].[danh_muc];
+--DELETE FROM [dbo].[laptop];
+--DELETE FROM [dbo].[don_hang];
+--DELETE FROM [dbo].[chi_tiet_don_hang];
+--DELETE FROM [dbo].[gio_hang];
+--DELETE FROM [dbo].[gio_hang_chi_tiet];
+--DELETE FROM [dbo].[danh_gia];
+--DELETE FROM [dbo].[series_laptop];
+
+--DECLARE @table_name NVARCHAR(255)
+--DECLARE @sql NVARCHAR(MAX)
+
+---- Cursor để lặp qua tất cả các bảng có cột IDENTITY
+--DECLARE table_cursor CURSOR FOR
+--SELECT t.name
+--FROM sys.tables t
+--INNER JOIN sys.columns c ON t.object_id = c.object_id
+--WHERE c.is_identity = 1  -- Chỉ lấy các bảng có cột IDENTITY
+
+--OPEN table_cursor
+--FETCH NEXT FROM table_cursor INTO @table_name
+
+--WHILE @@FETCH_STATUS = 0
+--BEGIN
+--    -- Tạo câu lệnh DBCC CHECKIDENT cho từng bảng
+--    SET @sql = 'DBCC CHECKIDENT (''dbo.' + @table_name + ''', RESEED, 0);'
+
+--    -- Thực thi câu lệnh động
+--    EXEC sp_executesql @sql
+
+--    FETCH NEXT FROM table_cursor INTO @table_name
+--END
+
+--CLOSE table_cursor
+--DEALLOCATE table_cursor
