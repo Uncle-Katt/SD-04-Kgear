@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Table(name = "laptop")
 @Data
 public class laptop {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -76,5 +77,6 @@ public class laptop {
     @ManyToOne
     @JoinColumn(name = "danh_muc_id", nullable = false)
     private danhMuc danhMuc;
+
 }
 

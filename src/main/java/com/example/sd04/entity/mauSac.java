@@ -7,11 +7,15 @@ import lombok.Data;
 @Table(name = "mau_sac")
 @Data
 public class mauSac {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(name = "ma")
     private String ma;
+
     @Column(name = "ten_mau")
     private String tenMau;
+
 }

@@ -22,10 +22,27 @@ CREATE TABLE [dbo].[khach_hang]
     [email]          NVARCHAR(255) NOT NULL UNIQUE,
     [so_dien_thoai]  VARCHAR(20)  NOT NULL,
     [dia_chi]        NVARCHAR(255),
-    [vai_tro_id]     INT,
     [ngay_tao]       DATETIME2 DEFAULT GETDATE(),
     [ngay_cap_nhat]  DATETIME2 DEFAULT GETDATE(),
     [thu_tu]         INT          NOT NULL,
+);
+GO
+
+-- Tạo bảng nhân viên (nhan_vien)
+CREATE TABLE [dbo].[nhan_vien]
+(
+    [id]            INT IDENTITY (1,1) PRIMARY KEY,
+    [ma]            VARCHAR(50) NOT NULL UNIQUE,
+    [ten_nhan_vien] NVARCHAR(255) NOT NULL,
+    [email]         NVARCHAR(255) NOT NULL UNIQUE,
+    [so_dien_thoai] VARCHAR(20) NOT NULL,
+    [dia_chi]       NVARCHAR(255),
+    [vai_tro_id]    INT NOT NULL,
+    [username]      VARCHAR(50) NOT NULL UNIQUE,
+    [password]      VARCHAR(255) NOT NULL, 
+    [ngay_tao]      DATETIME2 DEFAULT GETDATE(),
+    [ngay_cap_nhat] DATETIME2 DEFAULT GETDATE(),
+    [thu_tu]       INT NOT NULL,
     FOREIGN KEY ([vai_tro_id]) REFERENCES [dbo].[vai_tro] ([id])
 );
 GO
@@ -65,31 +82,44 @@ GO
 -- Tạo bảng laptop (laptop)
 CREATE TABLE [dbo].[laptop]
 (
+    [id] INT IDENTITY(1,1) PRIMARY KEY,
+    [ten] NVARCHAR(255) NOT NULL,
+    [mo_ta] NTEXT,
+    [gia] DECIMAL(10, 2) NOT NULL,
+    [so_luong] INT NOT NULL,
+    [anh_url] VARCHAR(255)
+);
+GO
+
+-- Tạo bảng chi tiết laptop (chi_tiet_laptop)
+CREATE TABLE [dbo].[chi_tiet_laptop]
+(
     [id]                 INT IDENTITY (1,1) PRIMARY KEY,
     [ma]                 VARCHAR(50)    NOT NULL UNIQUE,
-    [ten_laptop]         NVARCHAR(255)   NOT NULL,
-    [hang_sx_id]         INT            NOT NULL,
-    [mau_sac_id]         INT            NOT NULL,
-    [danh_muc_id]        INT            NOT NULL,
-    [cpu]                NVARCHAR(100),
-    [ram]                NVARCHAR(50),
-    [o_cung]             NVARCHAR(50),
-    [man_hinh]           NVARCHAR(50),
-    [card_man_hinh]      NVARCHAR(50),
-    [dung_luong_pin]     NVARCHAR(50),
-    [he_dieu_hanh]       NVARCHAR(50),
+    [laptop_id]         INT            NOT NULL,
+    [hang_sx_id]        INT            NOT NULL,
+    [mau_sac_id]        INT            NOT NULL,
+    [danh_muc_id]       INT            NOT NULL,
+    [cpu]               NVARCHAR(100),
+    [ram]               NVARCHAR(50),
+    [o_cung]            NVARCHAR(50),
+    [man_hinh]          NVARCHAR(50),
+    [card_man_hinh]     NVARCHAR(50),
+    [dung_luong_pin]    NVARCHAR(50),
+    [he_dieu_hanh]      NVARCHAR(50),
     [thong_tin_bao_hanh] NVARCHAR(255),
-    [gia]                DECIMAL(10, 2) NOT NULL,
-    [so_luong_ton_kho]   INT            NOT NULL,
-    [mo_ta]              NTEXT,
-    [anh_url]            VARCHAR(255),
-    [ngay_tao]           DATETIME2   DEFAULT GETDATE(),
-    [ngay_cap_nhat]      DATETIME2   DEFAULT GETDATE(),
-    [trang_thai]         VARCHAR(50) DEFAULT 'chua_ban',
-    [thu_tu]             INT            NOT NULL,
+    [gia]               DECIMAL(10, 2) NOT NULL,
+    [so_luong_ton_kho]  INT            NOT NULL,
+    [mo_ta]             NTEXT,
+    [anh_url]           VARCHAR(255),
+    [ngay_tao]          DATETIME2   DEFAULT GETDATE(),
+    [ngay_cap_nhat]     DATETIME2   DEFAULT GETDATE(),
+    [trang_thai]        VARCHAR(50) DEFAULT 'chua_ban',
+    [thu_tu]            INT            NOT NULL,
     FOREIGN KEY ([hang_sx_id]) REFERENCES [dbo].[hang_sx] ([id]),
     FOREIGN KEY ([mau_sac_id]) REFERENCES [dbo].[mau_sac] ([id]),
-    FOREIGN KEY ([danh_muc_id]) REFERENCES [dbo].[danh_muc] ([id])
+    FOREIGN KEY ([danh_muc_id]) REFERENCES [dbo].[danh_muc] ([id]),
+    FOREIGN KEY ([laptop_id]) REFERENCES [dbo].[laptop] ([id]) 
 );
 GO
 
@@ -187,17 +217,17 @@ CREATE TABLE [dbo].[series_laptop]
 GO
 
 
--- Trigger tạo mã tự động cho Laptop với định dạng "LT+id"
-CREATE TRIGGER trg_Laptop_Ma
-    ON [dbo].[laptop]
-    AFTER INSERT
-    AS
-BEGIN
-    UPDATE [dbo].[laptop]
-    SET [ma] = CONCAT('LT', [id])
-    WHERE [id] IN (SELECT [id] FROM inserted);
-END;
-GO
+---- Trigger tạo mã tự động cho Laptop với định dạng "LT+id"
+--CREATE TRIGGER trg_Laptop_Ma
+--    ON [dbo].[laptop]
+--    AFTER INSERT
+--    AS
+--BEGIN
+--    UPDATE [dbo].[laptop]
+--    SET [ma] = CONCAT('LT', [id])
+--    WHERE [id] IN (SELECT [id] FROM inserted);
+--END;
+--GO
 
 -- Thêm dữ liệu vào bảng vai_tro
 INSERT INTO [dbo].[vai_tro] ([ma], [ten_vai_tro], [thu_tu])
@@ -207,11 +237,19 @@ VALUES
 (N'KH', N'Khách hàng', 3);
 
 -- Thêm dữ liệu vào bảng khach_hang
-INSERT INTO [dbo].[khach_hang] ([ma], [ten_khach_hang], [email], [so_dien_thoai], [dia_chi], [vai_tro_id], [thu_tu])
+INSERT INTO [dbo].[khach_hang] ([ma], [ten_khach_hang], [email], [so_dien_thoai], [dia_chi], [thu_tu])
 VALUES
-(N'KH001', N'Nguyễn Văn A', N'email1@example.com', N'0123456789', N'Số 1, đường ABC', 3, 1),
-(N'KH002', N'Trần Thị B', N'email2@example.com', N'0123456790', N'Số 2, đường DEF', 3, 2),
-(N'KH003', N'Nguyễn Hoàng C', N'email3@example.com', N'0123456791', N'Số 3, đường XYZ', 3, 3);
+(N'KH001', N'Nguyễn Văn A', N'email1@example.com', N'0123456789', N'Số 1, đường ABC', 1),
+(N'KH002', N'Trần Thị B', N'email2@example.com', N'0123456790', N'Số 2, đường DEF', 2),
+(N'KH003', N'Nguyễn Hoàng C', N'email3@example.com', N'0123456791', N'Số 3, đường XYZ', 3);
+
+-- Thêm dữ liệu vào bảng nhan_vien
+INSERT INTO [dbo].[nhan_vien] ([ma], [ten_nhan_vien], [email], [so_dien_thoai], [dia_chi], [vai_tro_id], [username], [password], [thu_tu])
+VALUES 
+('NV001', 'Nguyễn Văn A', 'nva@example.com', '0123456789', 'Hà Nội', 1, 'nva', 'password1', 1),
+('NV002', 'Trần Thị B', 'ttb@example.com', '0987654321', 'TP.HCM', 2, 'ttb', 'password2', 2),
+('NV003', 'Lê Văn C', 'lvc@example.com', '0912345678', 'Đà Nẵng', 3, 'lvc', 'password3', 3);
+GO
 
 -- Thêm dữ liệu vào bảng hang_sx
 INSERT INTO [dbo].[hang_sx] ([ma], [ten_hang_sx], [mo_ta], [thu_tu])
@@ -235,11 +273,20 @@ VALUES
 (N'D003', N'Laptop Siêu nhẹ', N'Laptop nhẹ và dễ mang theo', 3);
 
 -- Thêm dữ liệu vào bảng laptop
-INSERT INTO [dbo].[laptop] ([ma], [ten_laptop], [hang_sx_id], [mau_sac_id], [danh_muc_id],[cpu], [ram], [o_cung], [man_hinh], [card_man_hinh], [dung_luong_pin], [he_dieu_hanh], [gia], [so_luong_ton_kho], [thu_tu])
+INSERT INTO [dbo].[laptop] ([ten], [mo_ta], [gia], [so_luong], [anh_url])
 VALUES
-(N'LT001', N'Laptop HP 123', 1, 1, 1,'Intel Core i7', '16GB', '512GB SSD', '15.6"', 'NVIDIA GTX 1650', '56Wh', 'Windows 10', 10000, 10, 1),
-(N'LT002', N'Laptop Dell XPS', 2, 2, 2,'Intel Core i5', '8GB', '256GB SSD', '15.6"', 'Intel UHD Graphics', '45Wh', 'Windows 11', 20000, 5, 2),
-(N'LT003', N'Laptop Lenovo ThinkPad', 3, 3, 3,'AMD Ryzen 7', '32GB', '1TB SSD', '17"', 'NVIDIA RTX 3060', '90Wh', 'Windows 11', 15000, 7, 3);
+(N'Laptop HP 123', N'Một chiếc laptop HP mạnh mẽ với Intel Core i7', 10000, 10, 'url_to_image_1.jpg'),
+(N'Laptop Dell XPS', N'Một chiếc laptop Dell XPS mỏng nhẹ với Intel Core i5', 20000, 5, 'url_to_image_2.jpg'),
+(N'Laptop Lenovo ThinkPad', N'Một chiếc laptop Lenovo ThinkPad bền bỉ với AMD Ryzen 7', 15000, 7, 'url_to_image_3.jpg');
+GO
+
+-- Thêm dữ liệu vào bảng chi_tiet_lap_top
+INSERT INTO [dbo].[chi_tiet_laptop] ([ma], [hang_sx_id], [mau_sac_id], [danh_muc_id], [cpu], [ram], [o_cung], [man_hinh], [card_man_hinh], [dung_luong_pin], [he_dieu_hanh], [gia], [so_luong_ton_kho], [mo_ta], [anh_url], [thu_tu])
+VALUES
+(N'LT001', 1, 1, 1, 'Intel Core i7', '16GB', '512GB SSD', '15.6"', 'NVIDIA GTX 1650', '56Wh', 'Windows 10', 10000, 10, N'Mô tả chi tiết cho Laptop HP 123', 'url_to_image_1_detail.jpg', 1),
+(N'LT002', 2, 2, 2, 'Intel Core i5', '8GB', '256GB SSD', '15.6"', 'Intel UHD Graphics', '45Wh', 'Windows 11', 20000, 5, N'Mô tả chi tiết cho Laptop Dell XPS', 'url_to_image_2_detail.jpg', 2),
+(N'LT003', 3, 3, 3, 'AMD Ryzen 7', '32GB', '1TB SSD', '17"', 'NVIDIA RTX 3060', '90Wh', 'Windows 11', 15000, 7, N'Mô tả chi tiết cho Laptop Lenovo ThinkPad', 'url_to_image_3_detail.jpg', 3);
+GO
 
 -- Thêm dữ liệu vào bảng don_hang
 INSERT INTO [dbo].[don_hang] ([ma], [khach_hang_id], [tong_tien], [dia_chi_giao_hang], [phuong_thuc_thanh_toan], [thu_tu])
@@ -291,6 +338,7 @@ SELECT * FROM [dbo].[hang_sx];
 SELECT * FROM [dbo].[mau_sac];
 SELECT * FROM [dbo].[danh_muc];
 SELECT * FROM [dbo].[laptop];
+SELECT * FROM [dbo].[chi_tiet_laptop];
 SELECT * FROM [dbo].[don_hang];
 SELECT * FROM [dbo].[chi_tiet_don_hang];
 SELECT * FROM [dbo].[gio_hang];

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Table(name = "khach_hang")
 @Data
 public class khachHang {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -50,4 +51,5 @@ public class khachHang {
 
     @Column(name = "ngay_cap_nhat")
     private LocalDateTime ngayCapNhat;
+
 }
