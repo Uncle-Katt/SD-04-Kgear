@@ -7,13 +7,18 @@ import lombok.Data;
 @Table(name = "danh_muc")
 @Data
 public class danhMuc {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(name = "ma")
     private String ma;
+
     @Column(name = "ten_danh_muc")
     private String ten;
+
     @Column(name = "mo_ta")
     private String moTa;
+
 }
