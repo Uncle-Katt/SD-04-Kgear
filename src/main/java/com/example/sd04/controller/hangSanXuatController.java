@@ -1,6 +1,5 @@
 package com.example.sd04.controller;
 
-import com.example.sd04.entity.danhGia;
 import com.example.sd04.entity.hangSanXuat;
 import com.example.sd04.repository.hangSanXuatRepository;
 import jakarta.validation.Valid;
@@ -30,7 +29,7 @@ public class hangSanXuatController {
     // Hiển thị form thêm đánh giá
     @GetMapping("/add")
     public String addForm(Model model) {
-        model.addAttribute("hangSX", new danhGia());
+        model.addAttribute("hangSX", new hangSanXuat());
         return "HangSX/add"; // Chỉ định đến JSP form thêm
     }
 
@@ -51,7 +50,7 @@ public class hangSanXuatController {
         }
     }
 
-    @PostMapping("edit/{id}")
+    @PostMapping("update/{id}")
     public String updateHangSXDetail(@PathVariable Integer id, @Valid hangSanXuat hangSanXuatDetails, BindingResult result, Model model) {
         Optional<hangSanXuat> hangSanXuatOptional = hangSanXuatRepo.findById(id);
         if (hangSanXuatOptional.isPresent()) {

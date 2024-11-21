@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page language="java" pageEncoding="UTF-8" %>
-<!doctype html>
-<html lang="en">
+
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Danh Sách Hãng Sản Xuất</title>

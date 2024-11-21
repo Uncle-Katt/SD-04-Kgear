@@ -1,7 +1,7 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page language="java" pageEncoding="UTF-8" %>
-<!doctype html>
-<html lang="en">
+
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Thêm Hãng Sản xuất</title>
