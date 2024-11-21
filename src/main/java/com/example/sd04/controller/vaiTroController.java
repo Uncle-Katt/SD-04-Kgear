@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("vaitro")
+@RequestMapping("vai-tro")
 public class vaiTroController {
     @Autowired
     vaiTroRepository vaiTroRepo;
@@ -36,17 +36,17 @@ public class vaiTroController {
             return "VaiTro/add";
         }
         vaiTroRepo.save(vaiTro);
-        return "redirect:/vaitro/index";
+        return "redirect:/vai-tro/index";
     }
 
-    @GetMapping("update/{id}")
+    @GetMapping("edit/{id}")
     public String editForm(@PathVariable Integer id, Model model) {
         Optional<vaiTro> vaiTroOptional = vaiTroRepo.findById(id);
         if (vaiTroOptional.isPresent()) {
             model.addAttribute("vaiTro", vaiTroOptional.get());
-            return "VaiTro/update";  // View để chỉnh sửa vai trò
+            return "VaiTro/edit";  // View để chỉnh sửa vai trò
         } else {
-            return "redirect:/vaitro/index";  // Nếu không tìm thấy vai trò, quay lại danh sách
+            return "redirect:/vai-tro/index";  // Nếu không tìm thấy vai trò, quay lại danh sách
         }
     }
 
@@ -63,6 +63,6 @@ public class vaiTroController {
             vaiTro.setTenVaiTro(vaiTroDetails.getTenVaiTro());
             vaiTroRepo.save(vaiTro);
         }
-        return "redirect:/vaitro/index";  // Quay lại danh sách vai trò
+        return "redirect:/vai-tro/index";  // Quay lại danh sách vai trò
     }
 }

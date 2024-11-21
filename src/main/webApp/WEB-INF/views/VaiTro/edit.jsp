@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page language="java" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 <head>
@@ -8,19 +8,24 @@
 </head>
 <body>
 <h2>Chỉnh Sửa Vai Trò</h2>
-<form action="/vaitro/update/${vaiTro.id}" method="post">
+<form action="/vai-tro/update/${vaiTro.id}" method="post">
     <div>
-        <label>Mã:</label>
-        <form:input path="ma"/>
-        <form:errors path="ma" cssClass="error"/>
+        <label for="ma">Mã:</label>
+        <input type="text" id="ma" name="ma" value="${vaiTro.ma}" required />
+        <c:if test="${not empty errors['ma']}">
+            <span class="error">${errors['ma']}</span>
+        </c:if>
     </div>
     <div>
-        <label>Tên Vai Trò:</label>
-        <form:input path="tenVaiTro"/>
-        <form:errors path="tenVaiTro" cssClass="error"/>
+        <label for="tenVaiTro">Tên Vai Trò:</label>
+        <input type="text" id="tenVaiTro" name="tenVaiTro" value="${vaiTro.tenVaiTro}" required />
+        <c:if test="${not empty errors['tenVaiTro']}">
+            <span class="error">${errors['tenVaiTro']}</span>
+        </c:if>
     </div>
 
-    <a href="/vaitro/index"><button type="submit">Cập Nhật</button></a>
+    <button type="submit">Cập Nhật</button>
+    <a href="/vai-tro/index">Quay Lại</a>
 </form>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page language="java" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 <head>
@@ -7,8 +7,7 @@
     <title>Danh Sách Vai Trò</title>
 </head>
 <body>
-<h2>Danh Sách Vai Trò</h2>
-<a href="${pageContext.request.contextPath}/vaitro/add">Thêm mới Vai Trò</a>
+<h1>Danh Sách Vai Trò</h1>
 <table border="1">
     <tr>
         <th>ID</th>
@@ -22,10 +21,12 @@
             <td>${vaiTro.ma}</td>
             <td>${vaiTro.tenVaiTro}</td>
             <td>
-                <a href="${pageContext.request.contextPath}/vaitro/edit/${vaiTro.id}">Chỉnh sửa</a>
+                <a href="${pageContext.request.contextPath}/vai-tro/edit/${vaiTro.id}"><button>Chỉnh sửa</button></a>
             </td>
         </tr>
     </c:forEach>
 </table>
+<a href="${pageContext.request.contextPath}/vai-tro/add"><button>Thêm Vai Trò</button></a>
+
 </body>
 </html>
