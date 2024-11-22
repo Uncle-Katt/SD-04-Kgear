@@ -31,23 +31,20 @@
             <th>Địa chỉ</th>
             <td><input type="text" name="diaChi" required maxlength="255" /></td>
         </tr>
-        <tr>
-            <th>Vai trò</th>
-            <td>
-                <select name="vaiTro.id" required>
-                    <c:forEach var="role" items="${roles}">
-                        <option value="${role.id}">${role.tenVaiTro}</option>
-                    </c:forEach>
-                </select>
-            </td>
-        </tr>
-        <tr>
             <th>Ngày tạo</th>
             <td><input type="date" name="ngayTao" /></td>
         </tr>
         <tr>
             <th>Ngày cập nhật</th>
             <td><input type="date" name="ngayCapNhat" /></td>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <td><input type="text" name="username" required maxlength="255" /></td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td><input type="text" name="password" required maxlength="255" /></td>
         </tr>
     </table>
     <a href="/khachhang/index"><button type="submit">Lưu Khách Hàng</button></a>

@@ -71,7 +71,8 @@ public class khachHangController {
             khachHang.setSoDienThoai(khachHangDetails.getSoDienThoai());
             khachHang.setDiaChi(khachHangDetails.getDiaChi());
             khachHang.setNgayCapNhat(khachHangDetails.getNgayCapNhat());
-
+            khachHang.setUsername(khachHangDetails.getUsername());
+            khachHang.setPassword(khachHangDetails.getPassword());
             khachHangRepo.save(khachHang);
         }
         return "redirect:/khachhang/index";

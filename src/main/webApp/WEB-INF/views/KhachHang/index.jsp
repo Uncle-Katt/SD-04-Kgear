@@ -21,6 +21,8 @@
         <th>Địa chỉ</th>
         <th>Ngày tạo</th>
         <th>Ngày cập nhật</th>
+        <th>Username</th>
+        <th>Password</th>
         <th colspan="1">Hành động</th>
     </tr>
     </thead>
@@ -35,6 +37,8 @@
             <td>${kh.diaChi}</td>
             <td>${kh.ngayTao}</td>
             <td>${kh.ngayCapNhat}</td>
+            <td>${kh.username}</td>
+            <td>${kh.password}</td>
             <td><a href="/khachhang/edit/${kh.id}"><button>Sửa khách hàng</button></a></td>
         </tr>
     </c:forEach>

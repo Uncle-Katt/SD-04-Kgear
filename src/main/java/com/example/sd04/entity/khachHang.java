@@ -3,10 +3,10 @@ package com.example.sd04.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Table(name = "KhachHang")
+@Table(name = "khach_hang")
 @Data
 public class khachHang {
     @Id
@@ -42,11 +42,16 @@ public class khachHang {
 
     @NotNull(message = "Ngày tạo không được để trống")
     @Column(name = "ngay_tao")
-    private LocalDateTime ngayTao;
+    private Date ngayTao;
 
     @Column(name = "ngay_cap_nhat")
-    private LocalDateTime ngayCapNhat;
-    
-    @Column(name = "thu_tu")
-    private Integer thuTu;
+    private Date ngayCapNhat;
+
+    @NotNull(message = "Khôg để trống username")
+    @Column(name = "username")
+    private String username;
+
+    @NotNull(message = "Không bỏ trống password")
+    @Column(name = "password")
+    private String password;
 }

@@ -31,18 +31,20 @@
     <form:input path="diaChi" />
     <form:errors path="diaChi" cssClass="error" /><br/>
 
-    <label>Vai trò:</label>
-    <form:select path="vaiTro.id">
-        <form:options items="${roles}" itemValue="id" itemLabel="tenVaiTro" />
-    </form:select>
-    <form:errors path="vaiTro" cssClass="error" /><br/>
-
     <label>Ngày tạo:</label>
     <form:input path="ngayTao" readonly="true"/><br/>
 
 
     <label>Ngày cập nhật:</label>
     <form:input path="ngayCapNhat" /><br/>
+
+    <label>Username:</label>
+    <form:input path="username" />
+    <form:errors path="username" cssClass="error" /><br/>
+
+    <label>Password:</label>
+    <form:input path="password" />
+    <form:errors path="password" cssClass="error" /><br/>
 
     <a href="${pageContext.request.contextPath}/khachhang/index"><button type="submit">Cập nhật</button></a>
 </form:form>
