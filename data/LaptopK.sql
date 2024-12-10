@@ -38,6 +38,9 @@ CREATE TABLE [dbo].[nhan_vien]
     [vai_tro_id]    INT           NOT NULL,
     [username]      VARCHAR(50)   NOT NULL UNIQUE,
     [password]      VARCHAR(255)  NOT NULL,
+    [ngay_sinh]     DATE          NULL, 
+    [gioi_tinh]     NVARCHAR(10)  NULL,
+    [anh_nhan_vien] VARCHAR(255)  NULL, 
     [ngay_tao]      DATE DEFAULT GETDATE(),
     [ngay_cap_nhat] DATE DEFAULT GETDATE(),
     FOREIGN KEY ([vai_tro_id]) REFERENCES [dbo].[vai_tro] ([id])
@@ -218,10 +221,10 @@ VALUES (N'KH001', N'Nguyễn Văn A', N'email1@example.com', N'0123456789', N'S�
 
 -- Thêm dữ liệu vào bảng nhan_vien
 INSERT INTO [dbo].[nhan_vien] ([ma], [ten_nhan_vien], [email], [so_dien_thoai], [dia_chi], [vai_tro_id], [username],
-                               [password])
-VALUES ('NV001', N'Nguyễn Văn A', 'nva@example.com', '0123456789', N'Hà Nội', 1, 'user1', 'password1'),
-       ('NV002', N'Trần Thị B', 'ttb@example.com', '0987654321', N'TP.HCM', 2, 'user2', 'password2'),
-       ('NV003', N'Lê Văn C', 'lvc@example.com', '0912345678', N'Đà Nẵng', 3, 'user3', 'password3');
+                               [password], [ngay_sinh], [gioi_tinh], [anh_nhan_vien])
+VALUES ('NV001', N'Nguyễn Văn A', 'nva@example.com', '0123456789', N'Hà Nội', 1, 'user1', 'password1', '1995-06-10', '0', NULL),
+       ('NV002', N'Trần Thị B', 'ttb@example.com', '0987654321', N'TP.HCM', 2, 'user2', 'password2', '1996-06-10', '1', NULL),
+       ('NV003', N'Lê Văn C', 'lvc@example.com', '0912345678', N'Đà Nẵng', 3, 'user3', 'password3', '1997-06-10', '0', NULL);
 GO
 
 -- Thêm dữ liệu vào bảng hang_sx
@@ -314,7 +317,6 @@ SELECT * FROM [dbo].[gio_hang];
 SELECT * FROM [dbo].[gio_hang_chi_tiet];
 SELECT * FROM [dbo].[danh_gia];
 SELECT * FROM [dbo].[series_laptop];
-
 
 --DELETE FROM [dbo].[vai_tro];
 --DELETE FROM [dbo].[khach_hang];

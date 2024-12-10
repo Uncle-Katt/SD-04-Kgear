@@ -73,6 +73,9 @@ public class nhanVienController {
             nhanVien.setEmail(nhanVienDetails.getEmail());
             nhanVien.setSoDienThoai(nhanVienDetails.getSoDienThoai());
             nhanVien.setDiaChi(nhanVienDetails.getDiaChi());
+            nhanVien.setNgaySinh(nhanVienDetails.getNgaySinh());
+            nhanVien.setGioiTinh(nhanVienDetails.getGioiTinh());
+            nhanVien.setAnhNhanVien(nhanVienDetails.getAnhNhanVien());
             nhanVien.setUsername(nhanVienDetails.getUsername());
             nhanVien.setPassword(nhanVienDetails.getPassword());
             nhanVien.setVaiTro(nhanVienDetails.getVaiTro());

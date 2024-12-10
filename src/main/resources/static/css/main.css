@@ -1,0 +1,202 @@
+body {
+    padding-top: 56px; /* Thêm khoảng cách cho phần nội dung dưới navbar */
+    background: #f5f5f5;
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    height: 100vh;
+    background-color: white; /* Màu nền nhẹ nhàng hơn */
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid #ddd; /* Viền phải */
+}
+
+/* Sidebar links */
+.sidebar a {
+    color: #495057; /* Màu chữ tối nhẹ */
+    text-decoration: none;
+    padding: 10px 15px;
+    display: block;
+    border-radius: 6px; /* Bo góc */
+    margin-bottom: 8px; /* Khoảng cách giữa các liên kết */
+    transition: all 0.3s ease; /* Hiệu ứng mượt mà */
+}
+
+/* Hover effect */
+.sidebar a:hover {
+    background-color: #e2e6ea; /* Màu nền xám nhạt khi hover */
+    border-left: 4px solid #E30019; /* Viền xanh dương */
+    color: #E30019; /* Màu chữ xanh dương */
+}
+
+/* Active state */
+.sidebar a.active {
+    background-color: #e2e6ea;
+    border-left: 4px solid #E30019;
+    color: #E30019;
+}
+
+.header-title {
+    font-size: 14px;
+}
+
+.header-card {
+    border-left: 4px solid #E30019;
+    border-radius: 4px;
+    padding-top: 8px;
+    padding-bottom: 4px;
+}
+
+#clock {
+    font-size: 12px;
+    margin-left: 20px;
+}
+
+.btn-tb a {
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.btn-tb .btn-info {
+    background-color: #aee8f7; /* Màu xanh tươi hơn */
+    border-color: #98d9f1;
+    color: #065464;
+}
+
+.btn-tb .btn-info:hover {
+    background-color: #90dff4; /* Màu hover tươi hơn */
+    border-color: #7bcee8;
+}
+
+.btn-tb .btn-warning {
+    background-color: #ffe49c; /* Màu vàng tươi hơn */
+    border-color: #ffdb80;
+    color: #704700;
+}
+
+.btn-tb .btn-warning:hover {
+    background-color: #ffd86b; /* Màu hover tươi hơn */
+    border-color: #ffc855;
+}
+
+.btn-tb .btn-success {
+    background-color: #adebad; /* Màu xanh lá tươi hơn */
+    border-color: #9edc9e;
+    color: #0d522d;
+}
+
+.btn-tb .btn-success:hover {
+    background-color: #94d494; /* Màu hover tươi hơn */
+    border-color: #85c685;
+}
+
+.btn-tb .btn-danger {
+    background-color: #f89c9c; /* Màu đỏ tươi hơn */
+    border-color: #f78a8a;
+    color: #640f10;
+}
+
+.btn-tb .btn-danger:hover {
+    background-color: #f57979;
+    border-color: #f26868;
+}
+
+.btn-tb .btn-secondary {
+    background-color: #d8dee3;
+    border-color: #c4cbd1;
+    color: #32393f;
+}
+
+.btn-tb .btn-secondary:hover {
+    background-color: #c4cbd1;
+    border-color: #afb7be;
+}
+
+.form-select, .form-control {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.form-select:hover, .form-control:hover {
+    background-color: #e9ecef;
+}
+
+.form-select:focus, .form-control:focus {
+    background-color: #ffffff;
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.Choicefile {
+    display: block;
+    background: #14142B;
+    border: 1px solid #fff;
+    color: #fff;
+    width: 150px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 5px 0px;
+    border-radius: 5px;
+    font-weight: 500;
+    align-items: center;
+    justify-content: center;
+}
+
+.Choicefile:hover {
+    text-decoration: none;
+    color: white;
+}
+
+#uploadfile,
+.removeimg {
+    display: none;
+}
+
+#thumbbox {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.removeimg {
+    height: 25px;
+    position: absolute;
+    background-repeat: no-repeat;
+    top: 5px;
+    left: 5px;
+    background-size: 25px;
+    width: 25px;
+    /* border: 3px solid red; */
+    border-radius: 50%;
+
+}
+
+.removeimg::before {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    content: '';
+    border: 1px solid red;
+    background: red;
+    text-align: center;
+    display: block;
+    margin-top: 11px;
+    transform: rotate(45deg);
+}
+
+.removeimg::after {
+    /* color: #FFF; */
+    /* background-color: #DC403B; */
+    content: '';
+    background: red;
+    border: 1px solid red;
+    text-align: center;
+    display: block;
+    transform: rotate(-45deg);
+    margin-top: -2px;
+}
