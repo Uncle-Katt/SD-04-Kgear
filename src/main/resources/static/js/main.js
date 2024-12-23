@@ -1,3 +1,4 @@
+
 // script.js
 function time() {
     var today = new Date();

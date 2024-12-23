@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -57,11 +58,6 @@ public class nhanVien {
     @ManyToOne
     @JoinColumn(name = "vai_tro_id", nullable = false)
     private vaiTro vaiTro;
-
-    // Thuộc tính mới
-    @Temporal(TemporalType.DATE)
-    @Column(name = "ngay_sinh")
-    private Date ngaySinh;
 
     @Column(name = "gioi_tinh")
     private String gioiTinh;

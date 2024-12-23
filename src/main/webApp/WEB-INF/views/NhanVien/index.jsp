@@ -39,7 +39,6 @@
         </div>
     </div>
 </nav>
-
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
@@ -82,7 +81,7 @@
                         <a href="#" class="btn btn-secondary btn-sm" title="Xóa tất cả"><i class="bi bi-trash"></i> Xóa
                             tất cả</a>
                     </div>
-                    <div class="row mb-3 d-flex align-items-center justify-content-between">
+                    <div class="row mb-1 d-flex align-items-center justify-content-between">
                         <div class="col-6 d-flex align-items-center">
                             <label class="label mb-0">Hiện</label>
                             <select class="form-select mx-2" style="width: auto;">
@@ -95,11 +94,16 @@
                         </div>
                         <div class="col-6">
                             <div class="d-flex justify-content-end">
-                                <div class="d-flex align-items-center p-1 border"
+                                <div class=" align-items-center p-1"
                                      style="width: fit-content; gap: 5px; border-radius: 4px;">
-                                    <label class="mb-0">Tìm kiếm:</label>
-                                    <input type="search" class="form-control form-control-sm"
-                                           style="width: 150px; height: 30px;">
+                                    <form action="/nhan-vien/index" method="get">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Nhập số điện thoại"
+                                                   aria-label="Recipient's username" aria-describedby="button-addon2" name="soDienThoai" value="${searchKey}">
+                                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i
+                                                    class="bi bi-search"></i></button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +116,6 @@
                             <th>Họ Và Tên</th>
                             <th>Ảnh Thẻ</th>
                             <th>Địa Chỉ</th>
-                            <th>Ngày Sinh</th>
                             <th>Giới Tính</th>
                             <th>Liên Lạc</th>
                             <th>Chức Vụ</th>
@@ -125,11 +128,10 @@
                                 <td>${nhanVien.ma}</td>
                                 <td>${nhanVien.tenNhanVien}</td>
                                 <td class="text-center">
-                                    <img src="${nhanVien.anhNhanVien}" alt="Ảnh nhân viên" width="50" height="50"
-                                         class="rounded">
+                                    <img src="${nhanVien.anhNhanVien}?v=${timestamp}" alt="Ảnh nhân viên" width="50"
+                                         height="50" class="rounded">
                                 </td>
                                 <td>${nhanVien.diaChi}</td>
-                                <td>${nhanVien.ngaySinh}</td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${nhanVien.gioiTinh == 0}">Nam</c:when>
@@ -142,7 +144,7 @@
                                 <td class="text-center">
                                     <a href="/nhan-vien/edit/${nhanVien.id}" class="btn btn-outline-warning btn-sm"
                                        title="Chỉnh sửa"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="/nhan-vien/edit/${nhanVien.id}" class="btn btn-outline-danger btn-sm"
+                                    <a href="/nhan-vien/delete/${nhanVien.id}" class="btn btn-outline-danger btn-sm"
                                        title="Xóa"><i class="bi bi-trash"></i></a>
                                 </td>
                             </tr>
